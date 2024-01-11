@@ -51,7 +51,7 @@ def login():
     if user and user.password == data.get('password'):
         return redirect(url_for('info'))
     else:
-        return {"message": "Invalid email or password."}, 401
+        return render_template('login.html', message="Invalid email or password. Please try again.")
 
 
 @app.route('/info', methods=['GET'])

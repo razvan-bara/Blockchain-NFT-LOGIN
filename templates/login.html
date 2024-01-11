@@ -43,9 +43,21 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
+		.error-message {
+            color: #a94442;
+            background-color: #f2dede;
+            border-color: #ebccd1;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
+	{% if message %}
+        <div class="error-message">{{ message }}</div>
+    {% endif %}
     <form action="/login" method="post">
         <label for="email">Email:</label>
         <input type="email" id="email" name="email" required>
