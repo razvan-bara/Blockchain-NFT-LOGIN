@@ -19,6 +19,10 @@ class User(db.Model):
 def health():
     return {"status": "UP"}, 200
 
+@app.route('/', methods=['GET'])
+def home():
+    return render_template('home.html')
+
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -31,8 +35,12 @@ def register():
     return redirect(url_for('register_form'))
 
 @app.route('/register', methods=['GET'])
-def register_form():
+def register_view():
     return render_template('register.html')
+
+@app.route('/login', methods=['GET'])
+def login_view():
+    return render_template('login.html')
 
 @app.route('/login', methods=['POST'])
 def login():
