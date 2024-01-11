@@ -34,6 +34,15 @@ def register():
 def register_form():
     return render_template('register.html')
 
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.form
+    user = User.query.filter_by(email=data.get('email')).first()
+    if user and user.password == data.get('password'):
+        return {"message": "Login successful."}, 200
+    else:
+        return {"message": "Invalid email or password."}, 401
+
 # Create tables
 with app.app_context():
     db.create_all()
