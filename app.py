@@ -1,6 +1,9 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import request
+from flask import render_template
+from flask import url_for
+from flask import redirect
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://stefan:1234@localhost/blockchain'
@@ -19,14 +22,17 @@ def health():
 
 @app.route('/register', methods=['POST'])
 def register():
-    data = request.get_json()
     new_user = User()
-    new_user.name = data.get('name')
-    new_user.email = data.get('email')
-    new_user.password = data.get('password')
+    new_user.name = request.form.get('name')
+    new_user.email = request.form.get('email')
+    new_user.password = request.form.get('password')  # In a real-world application, you should hash the password before storing it
     db.session.add(new_user)
     db.session.commit()
-    return {"message": "New user registered."}, 201
+    return redirect(url_for('register_form'))
+
+@app.route('/register', methods=['GET'])
+def register_form():
+    return render_template('register.html')
 
 # Create tables
 with app.app_context():
