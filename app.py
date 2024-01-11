@@ -29,7 +29,7 @@ def register():
     new_user = User()
     new_user.name = request.form.get('name')
     new_user.email = request.form.get('email')
-    new_user.password = request.form.get('password')  # In a real-world application, you should hash the password before storing it
+    new_user.password = request.form.get('password')
     db.session.add(new_user)
     db.session.commit()
     return redirect(url_for('register_form'))
@@ -42,14 +42,23 @@ def register_view():
 def login_view():
     return render_template('login.html')
 
+from flask import redirect, url_for
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.form
     user = User.query.filter_by(email=data.get('email')).first()
     if user and user.password == data.get('password'):
-        return {"message": "Login successful."}, 200
+        return redirect(url_for('info'))
     else:
         return {"message": "Invalid email or password."}, 401
+
+
+@app.route('/info', methods=['GET'])
+def info():
+    users = User.query.all()
+    return render_template('info.html', users=users)
+
 
 # Create tables
 with app.app_context():
