@@ -3,16 +3,16 @@ from multiversx_sdk_core import Address
 from pathlib import Path
 import os
 
+if not os.path.exists("./output"):
+    os.mkdir("./output/")
+    
+if not os.path.exists("./output/users"):
+    os.mkdir("./output/users")
+
 def saveWallet(userPEM, user_id):
-    if not os.path.exists("./output"):
-        os.mkdir("./output/")
-        
-    if not os.path.exists("./output/userWallets"):
-        os.mkdir("./output/userWallets")
 
-    os.mkdir("./output/userWallets/"+ str(user_id))
-
-    userPEM.save(Path("./output/userWallets/"+str(user_id)+"/user_"+str(user_id)+"_wallet.pem"))
+    os.mkdir("./output/users/{0}".format(user_id))
+    userPEM.save(Path("./output/users/{0}/user_{0}_wallet.pem".format(user_id)))
 
 def generateWallet() -> UserPEM:
     mnemonic = Mnemonic.generate()
