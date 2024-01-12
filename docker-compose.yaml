@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    restart: always
+    container_name: blockchainNFTLogin
+    environment:
+      POSTGRES_USER: stefan
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: blockchain
+    ports:
+      - 1234:5432

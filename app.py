@@ -6,14 +6,6 @@ from flask import url_for
 from flask import redirect
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://stefan:1234@localhost/blockchain'
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(50), unique=True, nullable=False)
-    password = db.Column(db.String(50), nullable=False)
 
 @app.route('/health', methods=['GET'])
 def health():
@@ -23,42 +15,8 @@ def health():
 def home():
     return render_template('home.html')
 
-
-@app.route('/register', methods=['POST'])
-def register():
-    new_user = User()
-    new_user.name = request.form.get('name')
-    new_user.email = request.form.get('email')
-    new_user.password = request.form.get('password')
-    db.session.add(new_user)
-    db.session.commit()
-    return redirect(url_for('register_form'))
-
-@app.route('/register', methods=['GET'])
-def register_view():
-    return render_template('register.html')
-
-@app.route('/login', methods=['GET'])
-def login_view():
-    return render_template('login.html')
-
-from flask import redirect, url_for
-
-@app.route('/login', methods=['POST'])
-def login():
-    data = request.form
-    user = User.query.filter_by(email=data.get('email')).first()
-    if user and user.password == data.get('password'):
-        return redirect(url_for('info'))
-    else:
-        return render_template('login.html', message="Invalid email or password. Please try again.")
-
-
-@app.route('/info', methods=['GET'])
-def info():
-    users = User.query.all()
-    return render_template('info.html', users=users)
-
+import routes.login, routes.register, routes.info
+from models.db import db
 
 # Create tables
 with app.app_context():
