@@ -3,7 +3,9 @@ from flask import render_template, request, redirect, url_for
 from models.user import User
 from models.db import db
 from blockchain.wallet import generateWallet, saveWallet
+from blockchain.nft import generateNFT, getNFTsOwnerAddress, transferLatestNFT
 from pathlib import Path
+from blockchain.provider import provider
 import os
 
 @app.route('/register', methods=['POST'])
@@ -22,6 +24,12 @@ def register():
     db.session.commit()
 
     saveWallet(pemWallet, new_user.id)
+    nft_name = "AUTH_NFT_OF_ID_#" + str(new_user.id)
+    
+    generateNFT(nft_name)
+    
+    transferLatestNFT(new_user)
+    
 
     return redirect(url_for('register'))
 
