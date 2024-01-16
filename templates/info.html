@@ -27,6 +27,9 @@
     </style>
 </head>
 <body>
+    {% if auth_user %}
+        <h3>Provided nft is valid! <br>Hello {{auth_user.name}}! Your mail is {{auth_user.email}}</h3>
+    {% endif %}
     <table>
         <tr>
             <th>Username</th>
