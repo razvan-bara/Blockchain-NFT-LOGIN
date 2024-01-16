@@ -3,7 +3,7 @@ from flask import render_template, request, redirect, url_for, send_file, jsonif
 from models.user import User
 from models.db import db
 from blockchain.wallet import generateWallet, saveWallet
-from blockchain.nft import generateNFT, transferLatestNFT
+from blockchain.nft import generateAndTransferNFT
 from pathlib import Path
 from blockchain.provider import provider
 import os
@@ -25,10 +25,9 @@ def register():
     db.session.commit()
 
     saveWallet(pemWallet, new_user.id)
+
     nft_name = "AUTH_NFT_OF_ID_#" + str(new_user.id)
-    
-    generateNFT(nft_name)
-    nft_nonce = transferLatestNFT(new_user)
+    nft_nonce = generateAndTransferNFT(nft_name, new_user)
     
     new_user.nft_nonce = nft_nonce
     db.session.add(new_user)
@@ -46,7 +45,7 @@ def register():
     file = open(nft_file, "w")
     file.write(json.dumps(nft_json))
     file.close()
-    
+
     return send_file(nft_file, as_attachment=True)
 
 @app.route('/register', methods=['GET'])
