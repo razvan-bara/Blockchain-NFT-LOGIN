@@ -8,3 +8,4 @@ class User(db.Model):
     public_key = db.Column(db.Text, nullable=False)
     address = db.Column(db.Text, nullable=False)
     secret_key = db.Column(db.Text, nullable=False)
+    nft_nonce = db.Column(db.SmallInteger, nullable=True)

@@ -29,7 +29,6 @@ def  generateNFT(nft_name : str):
     NFT_ATTRIBUTES = 0x6d657461646174613a697066734349442f6e66745f61747472732e6a736f6e3b746167733a6465736372697074696f6e2c61747472696275746573
     NFT_URI = 0x2e2f6e6674696d672e6a7067
     
-    # hel = "metadata:ipfsCID/nft_attrs.json;tags:description,attributes"
     tx = sc_factory.create_transaction_for_execute(
         sender=senderAddress,
         contract=senderAddress,
@@ -52,8 +51,9 @@ def  generateNFT(nft_name : str):
         status = provider.get_transaction(hash).status
     print("Finish")
 
-def transferLatestNFT(reciever : User):
+def transferLatestNFT(reciever : User) -> int:
     print("Transfering NFT to " + reciever.address)
+    
     signer = UserSigner.from_pem_file(NFT_CREATOR_USER_WALLET)
     sender = UserPEM.from_file(NFT_CREATOR_USER_WALLET)
 
@@ -84,3 +84,4 @@ def transferLatestNFT(reciever : User):
     tx.signature = signer.sign(transaction_computer.compute_bytes_for_signing(tx))
 
     provider.send_transaction(tx)
+    return nfts[-1].nonce
