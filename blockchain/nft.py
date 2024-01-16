@@ -88,4 +88,7 @@ def transferLatestNFT(reciever : User) -> int:
 
 def check_nft_ownership(user : User) -> bool:
     nfts = provider.get_nonfungible_tokens_of_account(Address.from_bech32(user.address))
+    if len(nfts) == 0:
+        return False
+    
     return user.nft_nonce == nfts[0].nonce
