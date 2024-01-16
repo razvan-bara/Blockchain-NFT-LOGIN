@@ -64,29 +64,6 @@ def  generateAndTransferNFT(nft_name : str, reciever : User) -> int:
     provider.send_transactions([tx_gen_nft, tx_transfer_nft])
     return nfts[-1].nonce
 
-# def transferLatestNFT(reciever : User) -> (Transaction, int):
-#     print("Transfering NFT to " + reciever.address)
-    
-#     signer = UserSigner.from_pem_file(NFT_CREATOR_USER_WALLET)
-#     sender = UserPEM.from_file(NFT_CREATOR_USER_WALLET)
-
-#     senderAddress = sender.public_key.to_address("erd")
-
-
-
-
-
-
-
-#     sender_on_network = provider.get_account(senderAddress)
-#     nonce_holder = AccountNonceHolder(sender_on_network.nonce)
-#     tx.nonce = nonce_holder.get_nonce_then_increment()
-
-#     transaction_computer = TransactionComputer()
-#     tx.signature = signer.sign(transaction_computer.compute_bytes_for_signing(tx))
-
-#     return tx, nfts[-1].nonce
-
 def check_nft_ownership(user : User) -> bool:
     nfts = provider.get_nonfungible_tokens_of_account(Address.from_bech32(user.address))
     if len(nfts) == 0:
