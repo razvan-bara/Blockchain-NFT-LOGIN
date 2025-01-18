@@ -1,10 +1,5 @@
 {
     "description": "NFT USED FOR 2023/2024 BLOCKCHAIN PROJECT SPCD-1A",
-    "attributes": [
-      {
-        "trait_type": "Background",
-        "value": "Yellow"
-      }
-    ]
+    "ownership": "address"
   }
   
